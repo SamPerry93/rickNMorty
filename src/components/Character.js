@@ -8,7 +8,8 @@ const Character = () => {
         characters,
         isMore,
         loading,
-        error
+        error,
+       
     } = useApiSearch(query,pageNumber)
 
 
@@ -19,15 +20,14 @@ const Character = () => {
         if(observer.current) observer.current.disconnect()
         //set new observer
         observer.current = new IntersectionObserver(entries => {
-            if(entries[0].isIntersecting && isMore){
-                console.log('visible')
+            if(entries[0].isIntersecting  && isMore){
+                //console.log('visible')
                 setPageNumber(prevPageNumber => prevPageNumber + 1)
                 console.log(pageNumber)
             }
         })
-        
         if(node) observer.current.observe(node)
-        console.log(node)
+        //console.log(node)
     },[loading,isMore])
 
 
@@ -39,18 +39,12 @@ const Character = () => {
 
     return(
         <div>
-            <input type="text" onChange={handleSearch}/>
+            <input vlaue={query} onChange={handleSearch}/>
             {characters.map((char,idx) => {
                 if(characters.length === idx + 1){
-                    return <div style={{
-                        marginTop: '100px',
-                        marginBottom:'100px'
-                    }} ref={lastCharacterElementRef} key={char.id}>{char}</div>
+                    return (<div ref={lastCharacterElementRef} key={char.id}>{char}</div>)
                 }else{
-                    return <div style={{
-                        marginTop: '100px',
-                        marginBottom:'100px'
-                    }} key={char.id}>{char}</div>
+                    return (<div key={char.id}>{char}</div>)
                 }
                 
             })}
